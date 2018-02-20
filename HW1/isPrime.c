@@ -21,22 +21,22 @@ printf("Enter a number: ");
 scanf("%d",&a);
 
 if(a <= 1){
-printf("%d is not prime\n\n", a);
+printf("%d is not prime.\n\n", a);
 
 }
 
 else if(a%2 == 0){ //number is odd
 
-printf("%d is not prime\n\n", a);
+printf("%d is not prime.\n\n", a);
 
 }
 
 else if(a%2 == 1 && primeNumberCheck(a) == 1){
 
-printf("%d is prime\n\n", a);
+printf("%d is prime.\n\n", a);
 
 }
 else{
-printf("%d is not prime\n\n",a);
+printf("%d is not prime.\n\n",a);
 }
 }

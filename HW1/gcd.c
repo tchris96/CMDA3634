@@ -4,13 +4,12 @@ int a,b;
 
 int GCD(int a,int b){
 
-
 if(b == 0){
 return a;
    }
 else{
 GCD(b, a%b);
-}
+   }
 }
 
 void main(){
@@ -24,6 +23,6 @@ printf("Enter the second number: ");
 scanf("%d", &b);
 c = GCD(a,b);
 printf("The greatest common divisor of %d", a);
-printf(" and %d is %d\n.",b, c);
+printf(" and %d is %d.\n",b, c);
 
 }
