@@ -18,31 +18,16 @@ int main(int argc, char **argv) {
 
 
   //need running tallies
-  long long int Ntotal;
-  long long int Ncircle;
+  long long int Ntotal = 0;
+  long long int Ncircle = 0;
 
   //seed random number generator
   double seed = rank;
   srand48(seed);
-  
-  double piApprox = 0;
-
-//  MPI_Allreduce(&Ncircle,
-//                &piApprox,
-//                1,
-//                MPI_LONG;
-//                MPI_SUM;
-//                MPI_COMM_WORLD);
-             
+ 
 
 
-if (rank == 0){
-
-
-  }
-
-
-  for (long long int n=0; n<1000000000;n++) {
+  for (long long int n=0; n<100000000;n++) {
     //gererate two random numbers
     double rand1 = drand48(); //drand48 returns a number between 0 and 1
     double rand2 = drand48();
@@ -53,13 +38,27 @@ if (rank == 0){
     //check if its in the circle
     if (sqrt(x*x+y*y)<=1) Ncircle++;
     Ntotal++;
+
+  if(n % 100 == 0) {
+
+  float sum;
+  double receive;
+  double pi = 4.0*Ncircle/ (double) Ntotal; 
+  receive = receive/sum;
+  
+  MPI_Reduce(&pi, &receive, 1, MPI_FLOAT, MPI_SUM, 0, MPI_COMM_WORLD);
+ 
+ // receive = receive/sum;  
+
+  if (rank == 0){
+  
+  printf("Rank 0 pi estimate %f for 100 steps: \n", pi);
+       }
+    }
   }
 
-  double pi = 4.0*Ncircle/ (double) Ntotal;
+//  double pi = 4.0*Ncircle/ (double) Ntotal;
 
-  printf("Our estimate of pi is %f \n", pi);
-
-  return 0;
- 
   MPI_Finalize();
+  return 0;
 }
