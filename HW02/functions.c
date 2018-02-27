@@ -4,25 +4,50 @@
 
 #include "functions.h"
 
+//unsigned int modProd(unsigned int a, unsigned int b, unsigned int p);
+//unsigned int modExp(unsigned int a, unsigned int b, unsigned int p);
+//unsigned int isProbablyPrime(unsigned int N);
+
+//unsigned int main(unsigned int a,unsigned int b,unsigned int p){
+unsigned int main(unsigned int N){
+//printf("the value of modProd is: %d \n", modProd(a,b,p));
+//printf("the value of modExp is: %d \n", modExp(a,b,p));
+//printf("0 if probably NOT prime, 1 if it is.");
+//printf("the result is that %d \n", isProbablyPrime(N));
+}
+
 //compute a*b mod p safely
 unsigned int modProd(unsigned int a, unsigned int b, unsigned int p) {
-  int za = a;
-  int ab = 0;
+ 
+ // scanf("%d", &a);
+ // scanf("%d", &b);
+ // scanf("%d", &p);
+
+  
+  unsigned int za = a;
+  unsigned  int ab = 0;
   for (int i = 0; i < 32; i++){
   int b_i = (b >> i)&1;  
 
-    if((b_i == 1)) ab  = (a*b + za*b_i)%p;
-    za = 2*za%p;
-  }
+  if((b_i == 1)) ab = (ab + za)%p;
+  za = 2*za%p;
+  }  
   return ab;
 }
 
 //compute a^b mod p safely
-unsigned int modExp(unsigned int a, unsigned int b, unsigned int p) {
-  int z = a;
-  int aExpb = 1; 
+  unsigned int modExp(unsigned int a, unsigned int b, unsigned int p) {
+  unsigned int z = a;
+  unsigned int aExpb = 1;
+
+  //scanf("%d", &a);
+  //scanf("%d", &b);
+  //scanf("%d", &p);
+
+
   for (int i = 0; i < 32; i++){
-  int b_i = (b >> i)&1;  
+  int b_i = (b >> i)&1;
+
     if(b_i == 1) aExpb = modProd(aExpb, z, p);
     
     z = modProd(z, z, p);
@@ -47,7 +72,7 @@ unsigned int randXbitInt(unsigned int n) {
 //tests for primality and return 1 if N is probably prime and 0 if N is composite
 unsigned int isProbablyPrime(unsigned int N) {
 
-  if (N%2==2) return 0; //not interested in even numbers (including 2)
+  if (N%2==0) return 0; //not interested in even numbers (including 2)
   
 
   unsigned int NsmallPrimes = 168;
@@ -73,6 +98,7 @@ unsigned int isProbablyPrime(unsigned int N) {
                                 937, 941, 947, 953, 967, 971, 977, 983, 
                                 991, 997};
   
+  scanf("%d", &N);
 
   //before using a probablistic primality check, check directly using the small primes list
   for (unsigned int n=1;n<NsmallPrimes;n++) {
@@ -86,10 +112,17 @@ unsigned int isProbablyPrime(unsigned int N) {
   unsigned int number = N-1;  
   unsigned int x;
 
-
+  //r is number of times we factor out 2 from N-1 to make it odd
   for (unsigned int n=0;n<NsmallPrimes;n++) {
-  d = 3;
-  r = (number/d)^2;
+  r = 0;
+
+  while(number%2 == 0){
+  r = r + 1;
+  number = number%2;
+  }
+
+  d = number/(pow(2,r));
+
   x = modExp(smallPrimeList[n], d, N);
   if(x == 1 || x == number){
   continue;
@@ -103,21 +136,22 @@ unsigned int isProbablyPrime(unsigned int N) {
 
   if(x == number) continue;
     }
- 
+  //printf("value is 0");
   return 0; //false
   }
+  //printf("value is 1");
   return 1; //true
 }
 
 //Finds a generator of Z_p using the assumption that p=2*q+1
 unsigned int findGenerator(unsigned int p) {
   /* Q3.3: complete this function and use the fact that p=2*q+1 to quickly find a generator */
+  int q; 
+  q = (p-1)/2;
 
-  int g = 0;
   for(int g=2; g<p; g++){
   
-  if(pow(g,2) == 1|| pow(g,q) == 1) {
-  return g;
+  if(pow(g,2) == 1|| pow(g,q) == 1) return g;
     }
   }
-}
+
