@@ -5,23 +5,24 @@
 #include "functions.h"
 
 //unsigned int modProd(unsigned int a, unsigned int b, unsigned int p);
-//unsigned int modExp(unsigned int a, unsigned int b, unsigned int p);
+unsigned int modExp(unsigned int a, unsigned int b, unsigned int p);
 //unsigned int isProbablyPrime(unsigned int N);
 
-//unsigned int main(unsigned int a,unsigned int b,unsigned int p){
-unsigned int main(unsigned int N){
-//printf("the value of modProd is: %d \n", modProd(a,b,p));
-//printf("the value of modExp is: %d \n", modExp(a,b,p));
-//printf("0 if probably NOT prime, 1 if it is.");
-//printf("the result is that %d \n", isProbablyPrime(N));
-}
+//unsigned int main(unsigned int N){
 
+unsigned int main(unsigned int a,unsigned int b,unsigned int p){
+//printf("the value of modProd is: %d \n", modProd(a,b,p));
+printf("the value of modExp is: %d \n", modExp(a,b,p));
+//printf("0 if probably NOT prime, 1 if it is. ");
+//printf("the result is that %d \n", isProbablyPrime(N));
+
+}
 //compute a*b mod p safely
 unsigned int modProd(unsigned int a, unsigned int b, unsigned int p) {
  
- // scanf("%d", &a);
- // scanf("%d", &b);
- // scanf("%d", &p);
+  //scanf("%d", &a);
+  //scanf("%d", &b);
+  //scanf("%d", &p);
 
   
   unsigned int za = a;
@@ -39,17 +40,22 @@ unsigned int modProd(unsigned int a, unsigned int b, unsigned int p) {
   unsigned int modExp(unsigned int a, unsigned int b, unsigned int p) {
   unsigned int z = a;
   unsigned int aExpb = 1;
+  unsigned int b_i = 0;
 
-  //scanf("%d", &a);
-  //scanf("%d", &b);
-  //scanf("%d", &p);
+  printf("Enter a");
+  scanf("%d", &a);
+  printf("Enter b");
+  scanf("%d", &b);
+  printf("Enter p");
+  scanf("%d", &p);
 
-
-  for (int i = 0; i < 32; i++){
-  int b_i = (b >> i)&1;
-
+  
+  for (unsigned int i = 0; i < 32; i++){
+   b_i = (b >> i)&1;
+  // unsigned int b_i = b%2;
+  //   if (b_i == 1) aExpb = modProd(aExpb, z, p);
     if(b_i == 1) aExpb = modProd(aExpb, z, p);
-    
+    b_i =  b_i/2;
     z = modProd(z, z, p);
   }
     return aExpb;
@@ -98,7 +104,7 @@ unsigned int isProbablyPrime(unsigned int N) {
                                 937, 941, 947, 953, 967, 971, 977, 983, 
                                 991, 997};
   
-  scanf("%d", &N);
+  //scanf("%d", &N);
 
   //before using a probablistic primality check, check directly using the small primes list
   for (unsigned int n=1;n<NsmallPrimes;n++) {
@@ -136,10 +142,10 @@ unsigned int isProbablyPrime(unsigned int N) {
 
   if(x == number) continue;
     }
-  //printf("value is 0");
+  printf("value is 0");
   return 0; //false
   }
-  //printf("value is 1");
+  printf("value is 1");
   return 1; //true
 }
 
@@ -153,5 +159,13 @@ unsigned int findGenerator(unsigned int p) {
   
   if(pow(g,2) == 1|| pow(g,q) == 1) return g;
     }
+
   }
+
+//int main(int argc,char** argv){
+ 
+//  int N;
+//  printf("Enter a number N");
+//  scanf(%
+//}
 

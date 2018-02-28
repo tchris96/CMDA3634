@@ -10,8 +10,8 @@ int main (int argc, char **argv) {
 	//seed value for the randomizer 
   double seed;
   
-  //seed = clock(); //this will make your program run differently everytime
-  seed = 0; //uncomment this and you program will behave the same everytime it's run
+  seed = clock(); //this will make your program run differently everytime
+  //seed = 0; //uncomment this and you program will behave the same everytime it's run
   
   srand48(seed);
 
@@ -21,23 +21,25 @@ int main (int argc, char **argv) {
 
   printf("Enter a number of bits: ");
   scanf("%u",&n);
-
+printf("number entered is %u",n);
   //make sure the input makes sense
   if ((n<2)||(n>30)) {
   	printf("Unsupported bit size.\n");
 		return 0;  	
   }
 
-  int p;
+  unsigned int p;
 
   /* Q2.2: Use isProbablyPrime and randomXbitInt to find a random n-bit prime number */
 
-  p = randXbitInt(n);
+  // unsigned int randomN = 0;
 
+  p = randXbitInt(n);
+  printf("the value of random number p is: %d", p);
   while(isProbablyPrime(p) == 0){
 
   p = randXbitInt(n);
-
+  printf("the value of p is: %d", p);
   }  
 
 
@@ -46,14 +48,14 @@ int main (int argc, char **argv) {
   /* Q3.2: Use isProbablyPrime and randomXbitInt to find a new random n-bit prime number 
      which satisfies p=2*q+1 where q is also prime */
  
-  int q;
+  unsigned int q;
 
   q = randXbitInt(n-1);
 
   while(isProbablyPrime(q) == 0){
 
   q = randXbitInt(n-1); 
-
+  printf("the value of q is %d", q);
   }
  
   p = 2*q+1;
@@ -68,5 +70,5 @@ int main (int argc, char **argv) {
 
 	printf("g = %u is a generator of Z_%u \n", g, p);  
 
-  return 0;
+	return 0;
 }
