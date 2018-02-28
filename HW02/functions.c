@@ -5,18 +5,18 @@
 #include "functions.h"
 
 //unsigned int modProd(unsigned int a, unsigned int b, unsigned int p);
-unsigned int modExp(unsigned int a, unsigned int b, unsigned int p);
+//unsigned int modExp(unsigned int a, unsigned int b, unsigned int p);
 //unsigned int isProbablyPrime(unsigned int N);
 
 //unsigned int main(unsigned int N){
 
-unsigned int main(unsigned int a,unsigned int b,unsigned int p){
+//unsigned int main(unsigned int a,unsigned int b,unsigned int p){
 //printf("the value of modProd is: %d \n", modProd(a,b,p));
-printf("the value of modExp is: %d \n", modExp(a,b,p));
+//printf("the value of modExp is: %d \n", modExp(a,b,p));
 //printf("0 if probably NOT prime, 1 if it is. ");
 //printf("the result is that %d \n", isProbablyPrime(N));
+//}
 
-}
 //compute a*b mod p safely
 unsigned int modProd(unsigned int a, unsigned int b, unsigned int p) {
  
@@ -28,35 +28,33 @@ unsigned int modProd(unsigned int a, unsigned int b, unsigned int p) {
   unsigned int za = a;
   unsigned  int ab = 0;
   for (int i = 0; i < 32; i++){
-  int b_i = (b >> i)&1;  
+  unsigned int b_i = (b >> i)&1;  
 
   if((b_i == 1)) ab = (ab + za)%p;
-  za = 2*za%p;
+  za =( 2*za)%p;
   }  
   return ab;
 }
 
 //compute a^b mod p safely
   unsigned int modExp(unsigned int a, unsigned int b, unsigned int p) {
-  unsigned int z = a;
   unsigned int aExpb = 1;
-  unsigned int b_i = 0;
 
-  printf("Enter a");
-  scanf("%d", &a);
-  printf("Enter b");
-  scanf("%d", &b);
-  printf("Enter p");
-  scanf("%d", &p);
+  //printf("Enter a");
+  //scanf("%d", &a);
+  //printf("Enter b");
+  //scanf("%d", &b);
+  //printf("Enter p");
+  //scanf("%d", &p);
 
+  unsigned int z = a;
   
   for (unsigned int i = 0; i < 32; i++){
-   b_i = (b >> i)&1;
-  // unsigned int b_i = b%2;
-  //   if (b_i == 1) aExpb = modProd(aExpb, z, p);
-    if(b_i == 1) aExpb = modProd(aExpb, z, p);
-    b_i =  b_i/2;
-    z = modProd(z, z, p);
+  unsigned int  b_i = (b >> i)&1;
+    if(b_i == 1) aExpb = modProd(aExpb,z,p);
+    else{
+    z = modProd(z,z,p);
+    }
   }
     return aExpb;
 }
@@ -77,6 +75,8 @@ unsigned int randXbitInt(unsigned int n) {
 
 //tests for primality and return 1 if N is probably prime and 0 if N is composite
 unsigned int isProbablyPrime(unsigned int N) {
+
+  //scanf("%d", &N);
 
   if (N%2==0) return 0; //not interested in even numbers (including 2)
   
@@ -115,35 +115,49 @@ unsigned int isProbablyPrime(unsigned int N) {
   //if we're testing a large number switch to Miller-Rabin primality test
   /* Q2.1: Complete this part of the isProbablyPrime function using the Miller-Rabin pseudo-code */
   unsigned int r,d;
-  unsigned int number = N-1;  
-  unsigned int x;
-
-  //r is number of times we factor out 2 from N-1 to make it odd
-  for (unsigned int n=0;n<NsmallPrimes;n++) {
+  int number = (N-1);  
   r = 0;
 
-  while(number%2 == 0){
-  r = r + 1;
-  number = number%2;
-  }
+  while (number%2 == 0)
+  {
+    printf("print statement");
+    number = number/2;
+    r++;
+  } 
+  d = number;
 
-  d = number/(pow(2,r));
+  printf(" test print\n");
 
-  x = modExp(smallPrimeList[n], d, N);
-  if(x == 1 || x == number){
+  for (int n=0;n<NsmallPrimes;n++) {
+  //r = 0;
+  unsigned int x = modExp(smallPrimeList[n], d, N);
+  //while(number%2 == 0){
+  //r = r + 1;
+  //number = number/2;
+  //}
+  //d = number;
+  //d = number/(pow(2,r));
+ // x = modExp(smallPrimeList[n], d, N);
+  if(x == 1 || x == (N-1))
+  {
   continue;
   }  
+  else{
   
-  for (int i = 0; i < r-1; r++){
-  
+  for(int i = 1; i < r; i++){
   x = modProd(x, x, N);
-
-  if (x == 1) return 0;
-
-  if(x == number) continue;
-    }
+  if (x == 1) {
   printf("value is 0");
-  return 0; //false
+  return 0;
+	}
+  if(x == (N-1))
+  {
+    break;
+  }
+      }
+  //printf("value is 0");
+  //return 0; //false
+   }
   }
   printf("value is 1");
   return 1; //true
@@ -162,10 +176,8 @@ unsigned int findGenerator(unsigned int p) {
 
   }
 
-//int main(int argc,char** argv){
+//unsigned int main(){
  
-//  int N;
-//  printf("Enter a number N");
-//  scanf(%
+//  printf("the result is %d: \n", isProbablyPrime(4337)); 
 //}
 
