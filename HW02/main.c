@@ -76,18 +76,18 @@ int main (int argc, char **argv) {
 }
 
  /*Bonus Question*/
-unsigned int x = randXbitInt(p);
-unsigned int h = pow(g,x);
+//unsigned int x = randXbitInt(p);
+//unsigned int h = pow(g,x);
 
-for (int i = 0; i < p; i++){
+//for (int i = 0; i < p; i++){
   
-  if(h = pow(g,x)){
+//  if(h = pow(g,x)){
   //printf("match has been found");
-      }  
-  else{
+//      }  
+//  else{
 
   //printf("match not found");
-  } 
+// } 
 
-  }
+//  }
 
