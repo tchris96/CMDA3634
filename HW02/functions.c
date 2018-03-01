@@ -120,24 +120,13 @@ unsigned int isProbablyPrime(unsigned int N) {
 
   while (number%2 == 0)
   {
-    printf("print statement");
     number = number/2;
     r++;
   } 
   d = number;
 
-  printf(" test print\n");
-
   for (int n=0;n<NsmallPrimes;n++) {
-  //r = 0;
   unsigned int x = modExp(smallPrimeList[n], d, N);
-  //while(number%2 == 0){
-  //r = r + 1;
-  //number = number/2;
-  //}
-  //d = number;
-  //d = number/(pow(2,r));
- // x = modExp(smallPrimeList[n], d, N);
   if(x == 1 || x == (N-1))
   {
   continue;
@@ -171,9 +160,8 @@ unsigned int findGenerator(unsigned int p) {
 
   for(int g=2; g<p; g++){
   
-  if(pow(g,2) == 1|| pow(g,q) == 1) return g;
+  if((g*g)%p != 1 && (unsigned int) (pow(g,q))%p != 1) return g;
     }
-
   }
 
 //unsigned int main(){

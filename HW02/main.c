@@ -21,7 +21,7 @@ int main (int argc, char **argv) {
 
   printf("Enter a number of bits: ");
   scanf("%u",&n);
-printf("number entered is %u",n);
+//printf("number entered is %u",n);
   //make sure the input makes sense
   if ((n<2)||(n>30)) {
   	printf("Unsupported bit size.\n");
@@ -35,11 +35,11 @@ printf("number entered is %u",n);
   // unsigned int randomN = 0;
 
   p = randXbitInt(n);
-  printf("the value of random number p is: %d", p);
+  //printf("the value of random number p is: %d \n", p);
   while(isProbablyPrime(p) == 0){
 
   p = randXbitInt(n);
-  printf("the value of p is: %d", p);
+ // printf("the value of p is: %d \n", p);
   }  
 
 
@@ -51,16 +51,18 @@ printf("number entered is %u",n);
   unsigned int q;
 
   q = randXbitInt(n-1);
-
-  while(isProbablyPrime(q) == 0){
+  p = 4;
+  while(isProbablyPrime(p) == 0){
 
   q = randXbitInt(n-1); 
-  printf("the value of q is %d", q);
+  printf("the value of q is %d \n", q);
+  
+    while(isProbablyPrime(q) == 0){
+
+      q = randXbitInt(n-1);
+    }
+      p = 2*q+1;
   }
- 
-  p = 2*q+1;
-
-
 
 	printf("p = %u is probably prime and equals 2*q + 1. q= %u and is also probably prime.\n", p, q);  
 
@@ -72,3 +74,20 @@ printf("number entered is %u",n);
 
 	return 0;
 }
+
+ /*Bonus Question*/
+unsigned int x = randXbitInt(p);
+unsigned int h = pow(g,x);
+
+for (int i = 0; i < p; i++){
+  
+  if(h = pow(g,x)){
+  //printf("match has been found");
+      }  
+  else{
+
+  //printf("match not found");
+  } 
+
+  }
+
