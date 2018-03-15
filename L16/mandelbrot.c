@@ -22,6 +22,8 @@ To create an image with 4096 x 4096 pixels (last argument will be used to set nu
 
 // Q2a: add include for OpenMP header file here:
 
+#include <omp.h>
+
 
 #define MXITER 1000
 
@@ -96,6 +98,9 @@ int main(int argc, char **argv){
 
   // Q2b: set the number of OpenMP threads to be Nthreads here:
 
+  Nthreads = atoi(argv[argc-1]);
+  omp_set_num_threads(Nthreads);
+
   // storage for the iteration counts
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
 
@@ -113,12 +118,14 @@ int main(int argc, char **argv){
 
   // Q2d: complete this to read time before calling mandelbrot with OpenMP API wall clock time
   double start;
+  start = omp_get_wtime();
 
   // compute mandelbrot set
   mandelbrot(Nre, Nim, cmin, cmax, count); 
   
   // Q2d: complete this to read time after calling mandelbrot using OpenMP wall clock time
   double end;
+  end = omp_get_wtime();
   
   // print elapsed time
   printf("elapsed = %g\n", end-start);
