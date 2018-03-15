@@ -1,0 +1,34 @@
+gcc -O3 -I. -fopenmp -c mandelbrot.c
+gcc -O3 -fopenmp -o mandelbrot mandelbrot.o png_util.o -lpng -lm
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
+libpng warning: Application built with libpng-1.6.20 but running with 1.5.13
+elapsed = 0
