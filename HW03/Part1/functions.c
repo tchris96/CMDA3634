@@ -145,11 +145,6 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a,
                     unsigned int p, unsigned int g, unsigned int h) {
 
   /* Q2.1 Implement the encryption routine for an ElGamal cryptographic system */
-  //unsigned int y = randXbitInt(p);
-  //while(y > p-1)
-  //{
-  // y = randXbitInt(p);
-  // }
   unsigned int y = 0;
   unsigned int b = p; 
   unsigned int fib = 0;
@@ -159,9 +154,7 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a,
     fib = fib+1;
   }
   y = randXbitInt(fib);
-  //*a = pow(g, y);
   *a = modExp(g, y, p);
-  //unsigned int s = pow(h, y);
   unsigned int s = modExp(h, y, p);
   *m = *m*s;
 }
@@ -170,9 +163,7 @@ void ElGamalDecrypt(unsigned int *m, unsigned int a,
                     unsigned int p, unsigned int x) {
 
   /* Q2.2 Implement the decryption routine for an ElGamal cryptographic system */
-  //unsigned int s = pow(a, x);
   unsigned int s = modExp(a, x, p);
- // unsigned int sInverse = pow(s, p-2);
   unsigned int sInverse = modExp(s,p-2,p);
   *m = *m*sInverse%p;
 }
