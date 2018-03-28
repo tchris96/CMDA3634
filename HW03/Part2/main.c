@@ -13,6 +13,7 @@ int main (int argc, char **argv) {
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
   MPI_Comm_size(MPI_COMM_WORLD,&size);
+  //size = 20;
 
   //seed value for the randomizer 
   double seed = clock()+rank; //this will make your program run differently everytime
@@ -28,8 +29,9 @@ int main (int argc, char **argv) {
     broadcast the public key information */
   if (rank == 0)
   {
-  printf("Enter a number of bits: "); fflush(stdout);
-  char status = scanf("%u",&n);
+ // printf("Enter a number of bits: "); fflush(stdout);
+ // char status = scanf("%u",&n);
+    n = 21;
 
   //make sure the input makes sense
   if ((n<3)||(n>31)) {//Updated bounds. 2 is no good, 31 is actually ok
@@ -71,6 +73,7 @@ int main (int argc, char **argv) {
      determine start and end values so this loop is 
      distributed amounst the MPI ranks  */
   unsigned int N = p-1; //total loop size
+ // N = 1;
   unsigned int start, end;
   start = 0;
   end = start + N;
@@ -99,8 +102,8 @@ int main (int argc, char **argv) {
 
   if(rank == 0)
   {
-  printf("The runtime is: %f", runTime);
-  printf("The throughput is: %f", workTime);
+  printf("The runtime is: %f\n", runTime);
+  printf("The throughput is: %f\n", workTime);
   }
   
   MPI_Finalize();
