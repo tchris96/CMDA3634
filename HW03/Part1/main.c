@@ -13,7 +13,7 @@ int main (int argc, char **argv) {
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
   MPI_Comm_size(MPI_COMM_WORLD,&size);
-  printf("rank is %d\n", rank);
+  //printf("rank is %d\n", rank);
   if (size<2) {
     printf("Need at least two ranks for this function.\n");
     MPI_Finalize();

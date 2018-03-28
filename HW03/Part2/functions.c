@@ -131,7 +131,11 @@ void setupElGamal(unsigned int n, unsigned int *p, unsigned int *g,
       q=(*p-1)/2;
   }
   *g = findGenerator(*p);
+  //while(*g == 0)
+  //{
+ // *g = findGenerator(*p);
   *x = randXbitInt(n);
+ // }
   while(*x > *p-2)
   {
   *x = randXbitInt(n);

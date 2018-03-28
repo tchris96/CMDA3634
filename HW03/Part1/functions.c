@@ -125,12 +125,24 @@ void setupElGamal(unsigned int n, unsigned int *p, unsigned int *g,
   /* Q1.1 Setup an ElGamal cryptographic system */
   
   *p = randXbitInt(n);
-  while(isProbablyPrime(*p) != 1)
+  unsigned int q = (*p-1)/2;
+  while(isProbablyPrime(*p) != 1 || isProbablyPrime(q)!=1)
   {
     *p = randXbitInt(n);
+    q=(*p-1)/2;
   }
   *g = findGenerator(*p);
+  while(*g == 0)
+  {
+    *g = findGenerator(*p);
+    *x = randXbitInt(n);
+  }
+
   *x = randXbitInt(n);
+  while(*x > *p-2)
+  {
+    *x = randXbitInt(n);
+  }
   *h = modExp(*g,*x,*p);
   
   printf("ElGamal Setup successful.\n");
