@@ -16,8 +16,8 @@ int main (int argc, char **argv) {
   //size = 20;
 
   //seed value for the randomizer 
- // double seed = clock()+rank; //this will make your program run differently everytime
-  double seed = rank; //uncomment this and your program will behave the same everytime it's run
+  double seed = clock()+rank; //this will make your program run differently everytime
+ // double seed = rank; //uncomment this and your program will behave the same everytime it's run
 
   srand(seed);
 
@@ -29,8 +29,8 @@ int main (int argc, char **argv) {
     broadcast the public key information */
   if (rank == 0)
   {
- // printf("Enter a number of bits: "); fflush(stdout);
- // char status = scanf("%u",&n);
+  printf("Enter a number of bits: "); fflush(stdout);
+  char status = scanf("%u",&n);
     n = 21;
 
   //make sure the input makes sense
