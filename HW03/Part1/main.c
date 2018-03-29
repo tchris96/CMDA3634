@@ -29,7 +29,7 @@ int main (int argc, char **argv) {
   //begin with rank 0 getting user's input
   unsigned int n;
 
-  unsigned int p, g, h, x;  
+//  unsigned int p, g, h, x;  
 
   /* Q1.2 alter so only Alice performs the ElGamal setup */
   /* Alice is rank 0 */
@@ -44,10 +44,13 @@ int main (int argc, char **argv) {
     return 0;   
   }
   printf("\n");
+ } 
   
-  
+
   //declare storage for an ElGamal cryptosytem
-  //unsigned int p, g, h, x;
+  unsigned int p, g, h, x;
+
+  if(rank==0){
 
   //setup an ElGamal cryptosystem
   setupElGamal(n,&p,&g,&h,&x);

@@ -16,8 +16,8 @@ int main (int argc, char **argv) {
   //size = 20;
 
   //seed value for the randomizer 
-  double seed = clock()+rank; //this will make your program run differently everytime
- // double seed = rank; //uncomment this and your program will behave the same everytime it's run
+ // double seed = clock()+rank; //this will make your program run differently everytime
+  double seed = rank; //uncomment this and your program will behave the same everytime it's run
 
   srand(seed);
 
@@ -141,13 +141,13 @@ if(remainder !=0)
                    3,
                    MPI_COMM_WORLD,
                    &request);
-        }
+      }
     
         if(foundKey == 1)
         {
          break;
         }
-      }
+     }
       Ninterval = 0;
     }
   Ninterval = Ninterval+1;
