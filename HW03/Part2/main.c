@@ -16,8 +16,8 @@ int main (int argc, char **argv) {
   //size = 20;
 
   //seed value for the randomizer 
-  double seed = clock()+rank; //this will make your program run differently everytime
-  //double seed = rank; //uncomment this and your program will behave the same everytime it's run
+ // double seed = clock()+rank; //this will make your program run differently everytime
+  double seed = rank; //uncomment this and your program will behave the same everytime it's run
 
   srand(seed);
 
@@ -73,7 +73,6 @@ int main (int argc, char **argv) {
      determine start and end values so this loop is 
      distributed amounst the MPI ranks  */
   unsigned int N = p-1; //total loop size
- // N = 1;
   unsigned int start, end;
   start = 0;
   end = start + N;
@@ -81,20 +80,78 @@ int main (int argc, char **argv) {
   start = rank*range;
   end = start+range;
   unsigned int remainder = N%size;
-
-  if(rank<remainder && remainder!=0)
+// && remainder !=0
+range = N/size;
+if(remainder !=0)
+{
+  if(rank<remainder)
     { 
-//      range = range+1;
-      N = N+1;
-      remainder = remainder-1;
-    }
+      range = range+1;
+      start = rank*range;
+      end = start+range;
+   }
+   else
+   {
+     range = range+1;
+     start = rank*range;
+     end = start+range;
+   }
 
+}
   double startTime;
-  startTime = MPI_Wtime();  
+  startTime = MPI_Wtime();
+  unsigned int foundKey = 0;  
+  unsigned int Ninterval = 0;
+  unsigned int breakOtherProcessers;
+  unsigned int flag = 0;
+  MPI_Request request;
+  MPI_Status status;
   //loop through the values from 'start' to 'end'
-  for (unsigned int i=start;i<end;i++) {
+  for (unsigned int i=start;i<end;i++) 
+  {
+    MPI_Iprobe(MPI_ANY_SOURCE,
+               3,
+               MPI_COMM_WORLD,
+               &flag,
+               &status);
+   if(flag!=0){
+    MPI_Irecv(&foundKey,
+              1,
+              MPI_INT,
+              MPI_ANY_SOURCE,
+              3,
+              MPI_COMM_WORLD,
+              &request);
+              }
+               
     if (modExp(g,i+1,p)==h)
+    {
       printf("Secret key found! x = %u \n", i+1);
+      foundKey = 1;
+    }
+    if(Ninterval == 10)
+    {
+    if(foundKey == 1)
+      {
+        for(i=0; i<size; i++)
+        {
+         MPI_Isend(&foundKey,
+                   1,
+                   MPI_INT,
+                   i,
+                   3,
+                   MPI_COMM_WORLD,
+                   &request);
+        }
+    
+        if(foundKey == 1)
+        {
+         break;
+        }
+      }
+      Ninterval = 0;
+    }
+  Ninterval = Ninterval+1;
   }
   MPI_Barrier(MPI_COMM_WORLD);
   double runTime = MPI_Wtime() - startTime;
