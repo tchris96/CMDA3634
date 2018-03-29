@@ -162,6 +162,7 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a,
   y = randXbitInt(fib);
   *a = modExp(g, y, p);
   unsigned int s = modExp(h, y, p);
+ // *m = *m*s;
    *m = modprod(*m,s,p);
 }
 
@@ -172,4 +173,5 @@ void ElGamalDecrypt(unsigned int *m, unsigned int a,
   unsigned int s = modExp(a, x, p);
   unsigned int sInverse = modExp(s,p-2,p);
   *m = modprod(*m,sInverse,p);
+ // *m = *m*sInverse%p;
 }
