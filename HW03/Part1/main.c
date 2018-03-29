@@ -143,10 +143,10 @@ int main (int argc, char **argv) {
 
   printf("Alice's recieved messages are:  [ ");
   for (unsigned int i=0;i<Nmessages;i++) {
-    printf("(%u,%u) ", message[i],a[i]);
+  printf("(%u,%u) ", message[i],a[i]);
   }
   printf("]\n");
-
+  
 
 
   //Decrypt the message with rank 0's ElGamal cyrptographic system
