@@ -29,9 +29,9 @@ int main (int argc, char **argv) {
     broadcast the public key information */
   if (rank == 0)
   {
-  printf("Enter a number of bits: "); fflush(stdout);
-  char status = scanf("%u",&n);
- //   n = 21;
+ // printf("Enter a number of bits: "); fflush(stdout);
+ // char status = scanf("%u",&n);
+    n = 21;
 
   //make sure the input makes sense
   if ((n<3)||(n>31)) {//Updated bounds. 2 is no good, 31 is actually ok
@@ -102,7 +102,6 @@ if(remainder !=0)
   startTime = MPI_Wtime();
   unsigned int foundKey = 0;  
   unsigned int Ninterval = 0;
-  unsigned int breakOtherProcessers;
   unsigned int flag = 0;
   MPI_Request request;
   MPI_Status status;
@@ -124,7 +123,7 @@ if(remainder !=0)
               &request);
               }
                
-    if (modExp(g,i+1,p)==h)
+    if(modExp(g,i+1,p)==h)
     {
       printf("Secret key found! x = %u \n", i+1);
       foundKey = 1;
