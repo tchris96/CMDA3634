@@ -130,7 +130,7 @@ int main(int argc, char **argv){
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
   float *cuda;
  // size_t memory = Nre*sizeof(float);
-  cudaMalloc(&cuda, Nim*Nre*sizeof(float));
+  cudaMalloc(&cuda, Nre*sizeof(float));
  // float *cuda = cudaMalloc(*count, Nre*sizeof(float));
   
 
