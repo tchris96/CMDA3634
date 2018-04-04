@@ -1,0 +1,33 @@
+make: *** No targets specified and no makefile found.  Stop.
+Nthreads=1
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=5
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=9
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=13
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=17
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=21
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=25
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=29
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=33
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=37
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=41
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=45
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=49
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=53
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=57
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
+Nthreads=61
+/opt/torque/torque/spool/mom_priv/jobs/168361.master.cluster.SC: line 19: ./mandelbrot: No such file or directory
