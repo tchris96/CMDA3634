@@ -78,8 +78,6 @@ __global__ void  kernelMandelbrot(int Nre, int Nim, complex_t cmin, complex_t cm
   //int nx = 4096;
   //int ny = 4096;
   
-
-
   complex_t c;
 
   double dr = (cmax.r-cmin.r)/(Nre-1);
@@ -96,9 +94,9 @@ int main(int argc, char **argv){
   // usage: ./mandelbrot 4096 4096 1  
 
   //Device array
-  int nx = 4096;
-  int ny = 4096;
-  int N = nx*ny;
+//  int nx = 4096;
+//  int ny = 4096;
+  //int N = nx*ny;
   //float *a1;
   
 
@@ -110,28 +108,23 @@ int main(int argc, char **argv){
 
   // Q2b: set the number of threads per block and the number of blocks here:
 
-//  int nx = 4096;
-//  int ny = 4096;
-//  int N =nx*ny;
 
   //int Nblocks = (N+Nthreads-1)/Nthreads;
   int Bx = Nthreads;
   int By = Nthreads;
   int Bz = 1;
-  int Gx = ((nx+Nthreads-1)/Nthreads);
-  int Gy = (ny+Nthreads-1)/Nthreads;
+ // int Gx i= ((nx+Nthreads-1)/Nthreads);
+  //int Gy = (Nre+Nthreads-1)/Nthreads,;
   int Gz = 1;
 
   dim3 B(Bx,By,Bz);
-  dim3 G(Gx,Gy,Gz); 
+  dim3 G((Nre+Nthreads-1)/Nthreads,(Nim+Nthreads-1)/Nthreads,Gz); 
    
   // storage for the iteration counts
 
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
   float *cuda;
- // size_t memory = Nre*sizeof(float);
-  cudaMalloc(&cuda, Nre*sizeof(float));
- // float *cuda = cudaMalloc(*count, Nre*sizeof(float));
+  cudaMalloc(&cuda, Nre*Nim*sizeof(float));
   
 
   // Parameters for a bounding box for "c" that generates an interesting image
@@ -149,12 +142,11 @@ int main(int argc, char **argv){
   clock_t start = clock(); //start time in CPU cycles
 
   // compute mandelbrot set
-  kernelMandelbrot<<<G,B>>>(Nre, Nim, cmin, cmax, count); 
+  kernelMandelbrot<<<G,B>>>(Nre, Nim, cmin, cmax, cuda); 
   cudaDeviceSynchronize();
-  cudaMemcpy(count,cuda,N*sizeof(float),cudaMemcpyDeviceToHost);   
-  
- 
   clock_t end = clock(); //start time in CPU cycles
+  cudaMemcpy(cuda,count,Nthreads*sizeof(float),cudaMemcpyDeviceToHost);
+ 
   
   // print elapsed time
   printf("elapsed = %f\n", ((double)(end-start))/CLOCKS_PER_SEC);
@@ -167,6 +159,7 @@ int main(int argc, char **argv){
   printf("done.\n");
 
   free(count);
+  free(cuda);
 
   exit(0);
   return 0;
