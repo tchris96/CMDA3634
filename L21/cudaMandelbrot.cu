@@ -105,7 +105,7 @@ int main(int argc, char **argv){
   int Nre = atoi(argv[1]);
   int Nim = atoi(argv[2]);
   int Nthreads = atoi(argv[3]);
-
+  //int Nthreads = 2;
   // Q2b: set the number of threads per block and the number of blocks here:
 
 
@@ -117,8 +117,8 @@ int main(int argc, char **argv){
   //int Gy = (Nre+Nthreads-1)/Nthreads,;
   int Gz = 1;
 
-  dim3 B(Bx,By,Bz);
-  dim3 G((Nre+Nthreads-1)/Nthreads,(Nim+Nthreads-1)/Nthreads,Gz); 
+  //dim3 B(Bx,By,Bz);
+ // dim3 G((Nre+Nthreads-1)/Nthreads,(Nim+Nthreads-1)/Nthreads,Gz); 
    
   // storage for the iteration counts
 
@@ -139,13 +139,16 @@ int main(int argc, char **argv){
   cmin.i = centIm - 0.5*diam;
   cmax.i = centIm + 0.5*diam;
 
+  dim3 B(Bx,By,Bz);
+  dim3 G((Nre+Nthreads-1)/Nthreads,(Nim+Nthreads-1)/Nthreads,Gz);
+
   clock_t start = clock(); //start time in CPU cycles
 
   // compute mandelbrot set
   kernelMandelbrot<<<G,B>>>(Nre, Nim, cmin, cmax, cuda); 
   cudaDeviceSynchronize();
   clock_t end = clock(); //start time in CPU cycles
-  cudaMemcpy(cuda,count,Nthreads*sizeof(float),cudaMemcpyDeviceToHost);
+  cudaMemcpy(count,cuda,Nre*Nim*sizeof(float),cudaMemcpyDeviceToHost);
  
   
   // print elapsed time
@@ -159,7 +162,7 @@ int main(int argc, char **argv){
   printf("done.\n");
 
   free(count);
-  free(cuda);
+  cudaFree(cuda);
 
   exit(0);
   return 0;
