@@ -9,13 +9,13 @@
 
 int main (int argc, char **argv) {
 
-  int Nthreads = 1;
+  int Nthreads = 8;
 
   omp_set_num_threads(Nthreads);
 
 	//seed value for the randomizer 
-  double seed = clock(); //this will make your program run differently everytime
-  //double seed = 0; //uncomment this and your program will behave the same everytime it's run
+  //double seed = clock(); //this will make your program run differently everytime
+  double seed = 0; //uncomment this and your program will behave the same everytime it's run
 
   srand(seed);
 
@@ -90,8 +90,8 @@ int main (int argc, char **argv) {
   double startTime = omp_get_wtime();
   int flag = 0;
   #pragma omp parallel for shared(flag)
-  for (unsigned int i=0;i<p-1;i++ && flag==0) {
-    if (modExp(g,i+1,p)==h) {
+  for (unsigned int i=0;i<p-1;i++) {
+    if (modExp(g,i+1,p)==h && flag ==0) {
       printf("Secret key found! x = %u \n", i+1);
       flag = 1;
     } 
