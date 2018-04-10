@@ -191,9 +191,21 @@ void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 //Pad the end of string so its length is divisible by Nchars
 // Assume there is enough allocated storage for the padded string 
 void padString(unsigned char* string, unsigned int charsPerInt) {
+ /* Q1.2 Complete this function   */
+  //int length = strlen(string);
+  //string[length] = length+' '+'\0';
+  //charsPerInt = (n-1)/8; 
+  //char space[10];
+  //strcpy(space, " ");
+  printf("the charsPerInt is %d\n",charsPerInt);
+  //int length = strlen(string);
 
-  /* Q1.2 Complete this function   */
-
+  while((strlen(string))%charsPerInt != 0)
+  {
+    //string[length] = length+" ";
+   // length%charsPerInt;
+   strcat(string, " ");
+  }
 }
 
 
@@ -202,15 +214,69 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
 
   /* Q1.3 Complete this function   */
   /* Q2.2 Parallelize this function with OpenMP   */
+  //to shift a byte right multi by 2 8 times, 2^6
+  if(Nchars/Nints == 1)
+  {
+  for(int i=0; i<Nints; i++)
+    {   
+    Z[i] = (unsigned int)string[i];
+    }
+  }
 
+  if(Nchars/Nints == 2)
+  {
+    unsigned int k = 0;
+    for(int i=0; i<Nints; i++)
+    {
+    unsigned int firstNum = (unsigned int)string[0+k];
+    unsigned int secondNum = (unsigned int)string[1+k];
+    unsigned int combinedNum = firstNum*256+secondNum;
+    Z[i] = combinedNum;
+    k+=2;
+    }
+  }
+  if(Nchars/Nints == 3)
+  {
+    unsigned int a = 0;
+    for(int i=0; i<Nints; i++)
+      {
+    unsigned int firstNum = (unsigned int)string[0+a];
+    unsigned int secondNum = (unsigned int)string[1+a];
+    unsigned int thirdNum = (unsigned int)string[2+a];
+    unsigned int combinedNum = firstNum*256*256+secondNum*256+thirdNum;
+    Z[i] = combinedNum;
+    a+=3;
+      }
+  }
 }
 
-
+/*Z%p       */
 void convertZToString(unsigned int  *Z,      unsigned int Nints,
                       unsigned char *string, unsigned int Nchars) {
 
   /* Q1.4 Complete this function   */
   /* Q2.2 Parallelize this function with OpenMP   */
 
+    for(int i=0; i<Nints; i++)
+    {
+     unsigned int zCopy = Z[i];
+     int counter = 0;
+     while(zCopy != 0)
+     {
+     unsigned int entryToAdd =  Z[i]%256;
+     string[counter] = (unsigned char)entryToAdd;
+     counter++;
+     zCopy = (zCopy-entryToAdd)/256;
+     }
+    }
+//if(Nchars/Nints == 2)
+//{
+//for(int i=0; i<Nints; i++)
+//  {
+//    unsigned int entryToAdd = Z[i]
+//
+//  }
+
 }
+
 

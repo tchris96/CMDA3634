@@ -46,7 +46,8 @@ int main (int argc, char **argv) {
   printf("Message = \"%s\"\n", message);
 
   /* Q1.1 Finish this line   */
-  unsigned int charsPerInt = ceil((pow(2,n))/255);
+  unsigned int charsPerInt = (n-1)/8;
+ // unsigned int charsPerInt = ceil((pow(2,n))/255);
 
   padString(message, charsPerInt);
   printf("Padded Message = \"%s\"\n", message);
