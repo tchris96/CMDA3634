@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "functions.h"
-#include <omp.h>
+#include "omp.h"
 
 //compute a*b mod p safely
 unsigned int modprod(unsigned int a, unsigned int b, unsigned int p) {
@@ -195,7 +195,6 @@ void padString(unsigned char* string, unsigned int charsPerInt) {
  /* Q1.2 Complete this function   */
   printf("the charsPerInt is %d\n",charsPerInt);
   //int length = strlen(string);
-
   while((strlen(string))%charsPerInt != 0)
   {
     //string[length] = length+" ";
@@ -213,10 +212,9 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
   if(Nchars/Nints == 1)
   {
   #pragma omp parallel for
-  for(int i=0; i<Nints; i++)
+  for(int i=0; i<strlen(string); i++)
     {   
     Z[i] = (unsigned int)string[i];
-    printf("%d",i);
     }
   }
 
@@ -230,8 +228,9 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
     unsigned int secondNum = (unsigned int)string[1+k];
     unsigned int combinedNum = firstNum*256+secondNum;
     Z[i] = combinedNum;
-    k+=2;
+    k+=2;  
     }
+  #pragma omp barrier
   }
   if(Nchars/Nints == 3)
   {
@@ -239,7 +238,6 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
       {
-    printf("%d",i);
     unsigned int firstNum = (unsigned int)string[0+a];
     unsigned int secondNum = (unsigned int)string[1+a];
     unsigned int thirdNum = (unsigned int)string[2+a];
@@ -252,7 +250,6 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
   //unsigned int counter = 0;
   //unsigned int generalCombinedNum = 0;
   //for(int i=0; i<Nints; i++)
-  
 }
 
 void convertZToString(unsigned int  *Z,      unsigned int Nints,
