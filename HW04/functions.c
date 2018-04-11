@@ -193,7 +193,7 @@ void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 // Assume there is enough allocated storage for the padded string 
 void padString(unsigned char* string, unsigned int charsPerInt) {
  /* Q1.2 Complete this function   */
-  //printf("the charsPerInt is %d\n",charsPerInt);
+  printf("the charsPerInt is %d\n",charsPerInt);
   //int length = strlen(string);
 
   while((strlen(string))%charsPerInt != 0)
@@ -264,7 +264,7 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
     {
-      string[i] = (unsigned char) Z[i];
+      string[i] =(unsigned char)Z[i];
     }
   }
 
@@ -273,8 +273,8 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
     {
-    string[i*2] = Z[i]/256;
-    string[i*2+1]=Z[i]%256;
+    string[i*2] =(unsigned char)(Z[i]/256);
+    string[(i*2)+1]=(unsigned char)(Z[i]%256);
     }
   }
   if(Nchars/Nints == 3)
@@ -282,9 +282,9 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
     {
-    string[i*3] = (Z[i]/256)/256;
-    string[i*3+1] = (Z[i]/256)%256;
-    string[i*3+2] = Z[i]%256;
+    string[(i*3)] = (unsigned char)(Z[i]/(256*256));
+    string[(i*3)+1] = (unsigned char)(Z[i]/256)%256;
+    string[(i*3)+2] = (unsigned char)Z[i]%256;
     }
   }
 }
