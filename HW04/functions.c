@@ -216,6 +216,7 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
   for(int i=0; i<Nints; i++)
     {   
     Z[i] = (unsigned int)string[i];
+    printf("%d",i);
     }
   }
 
@@ -238,6 +239,7 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
       {
+    printf("%d",i);
     unsigned int firstNum = (unsigned int)string[0+a];
     unsigned int secondNum = (unsigned int)string[1+a];
     unsigned int thirdNum = (unsigned int)string[2+a];
