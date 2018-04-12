@@ -9,8 +9,8 @@
 
 int main (int argc, char **argv) {
 
-  int Nthreads = 4;
-//  int Nthreads = atoi(argv[1]);
+  int Nthreads = 16;
+ // int Nthreads = atoi(argv[1]);
 
   omp_set_num_threads(Nthreads);
 
@@ -92,10 +92,14 @@ int main (int argc, char **argv) {
   unsigned int flag = 0;
   #pragma omp parallel for shared(flag) 
   for (unsigned int i=0;i<p-1;i++) {
-    if (flag == 0 && modExp(g,i+1,p)==h) {
+    if (modExp(g,i+1,p)==h) {
       printf("Secret key found! x = %u \n", i+1);
       flag = 1;
     } 
+    if (flag == 1)
+    {
+      i = p;
+    }
   }
   double endTime = omp_get_wtime();
 

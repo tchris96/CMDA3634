@@ -220,30 +220,26 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
 
   if(Nchars/Nints == 2)
   {
-    unsigned int k = 0;
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
     {
-    unsigned int firstNum = (unsigned int)string[0+k];
-    unsigned int secondNum = (unsigned int)string[1+k];
+    unsigned int firstNum = (unsigned int)string[0+2*i];
+    unsigned int secondNum = (unsigned int)string[1+2*i];
     unsigned int combinedNum = firstNum*256+secondNum;
     Z[i] = combinedNum;
-    k+=2;  
     }
-  #pragma omp barrier
+//  #pragma omp barrier
   }
   if(Nchars/Nints == 3)
   {
-    unsigned int a = 0;
     #pragma omp parallel for
     for(int i=0; i<Nints; i++)
       {
-    unsigned int firstNum = (unsigned int)string[0+a];
-    unsigned int secondNum = (unsigned int)string[1+a];
-    unsigned int thirdNum = (unsigned int)string[2+a];
+    unsigned int firstNum = (unsigned int)string[0+3*i];
+    unsigned int secondNum = (unsigned int)string[1+3*i];
+    unsigned int thirdNum = (unsigned int)string[2+3*i];
     unsigned int combinedNum = firstNum*256*256+secondNum*256+thirdNum;
     Z[i] = combinedNum;
-    a+=3;
       }
   }
   //general functions
