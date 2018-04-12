@@ -9,14 +9,14 @@
 
 int main (int argc, char **argv) {
 
-  int Nthreads = 16;
+  int Nthreads = 1;
  // int Nthreads = atoi(argv[1]);
 
   omp_set_num_threads(Nthreads);
 
 	//seed value for the randomizer 
-  //double seed = clock(); //this will make your program run differently everytime
-  double seed = 0; //uncomment this and your program will behave the same everytime it's run
+  double seed = clock(); //this will make your program run differently everytime
+  //double seed = 0; //uncomment this and your program will behave the same everytime it's run
 
   srand(seed);
 
