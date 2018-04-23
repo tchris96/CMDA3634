@@ -31,24 +31,24 @@ int main (int argc, char **argv) {
 
   FILE* file = fopen("public_key.txt", "r");
 
-  int amount;
+  unsigned int amount;
 
-  fscanf(file, "%d", &amount);
+  fscanf(file, "%u", &amount);
  
   int *data = (int *) malloc(n*sizeof(int));
 
   for (int m=0;m<amount;m++)
-  {
-    fscanf(file, "%d", data+m);
+  { 
+    fscanf(file, "%u", data+m);
   }
   n = amount;
   p = data[0];
   g = data[1];
   h = data[2];
-printf("n is %d\n",n);
-printf("p is %d\n",p);
-printf("g is %d\n",g);
-printf("h is %d\n",h);
+//printf("n is %d\n",n);
+//printf("p is %d\n",p);
+//printf("g is %d\n",g);
+//printf("h is %d\n",h);
 
   int numOfCypher = amount;
   unsigned int charsPerInt = (n-1)/8;
