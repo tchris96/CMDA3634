@@ -26,46 +26,29 @@ __device__ AmodExp(unsigned int a, unsigned int b, unsigned int p)
     unsigned int aExpb = 1;
     while (b>0)
     {
-      if(b%2==1) aExpb = modprod(aExpb, z, p);
+      if(b%2==1) aExpb = Amodprod(aExpb, z, p);
       z = modprod(z,z,p);
       b /= 2;
     }
   return aExpb;
   }
-//__device__ AconvertZToString(unsigned int *Z, unsigned int Nints, unsigned char *string, unsigned int Nchars)
-//  {
-//    unsigned int charsPerInt = Nchars/Nints;
-//    for (int i=0; i<Nints; i++){
-//      string[i*charsPerInt + charsPerInt-1-n] = z%256;
-//      z /=256;
-//    }
-//  }
-//  string[Nints*charsPerInt] = '\0';
-//}
-//__device__ AElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nintsm unsigned int p, unsigned int x){
-//  for(unsigned int i=0; i<Nints;i++)
-//  {
-//    unsigned int s = modExp(a[i],x,p);
-//    unsigned int invS = modExp(s,p-2,p);
-//    m[i] = modprod(m[i], invS,p);
-//  }
-//}
-__device__ findSecretKey(unsigned int n, unsigned int p, unsigned int g, unsigned int h, unsigned int x)
+__global__ findSecretKey(unsigned int n, unsigned int p, unsigned int g, unsigned int h, unsigned int *x)
   {
+  int threadId = threadIdx.x;
+  int blockId = blockIdx.x;
+  int Nblock = blockDim.x;
+  int id = threadId + blockID*Nblock;
     if(x==0 || AmodExp(g,x,p)!=h)
-    {
-      printf("Finding the secret key...\n");
-      double startTime = clock();
-      for(unsigned int i=0; i<p-1;i++)
       {
-        if(AmodExp(g,i+1,p) ==h)
+      if(id<pow(2,n))
         {
-          printf("Secret key found! x = %u \n", i+1);
+    if(AmodExp(g,i+1,p) ==h)
+            {
+               *x[0] = i+1;
+            }
         }
       }
-    }
    }
-
 
 int main (int argc, char **argv) {
 
@@ -91,7 +74,7 @@ int main (int argc, char **argv) {
   unsigned int *data1 = (int *) malloc(n1*sizeof(int));
   unsigned int *Zmessage = (int *) malloc(n2*sizeof(int));
   unsigned int *a = (int *) malloc(n2*sizeof(int));
-
+  //read in first file
   for(unsigned int m1=0; m1<n1; m1++)
   {
     fscanf(file1, "%u", data1+m1);
@@ -105,6 +88,7 @@ int main (int argc, char **argv) {
   printf("g is %d\n", g);
   printf("h is %d\n", h);
   printf("x is %d\n", x);
+  //read in second file
   for(unsigned int m2=0; m2<n2; m2++)
   {
     fscanf(file2, "%u  %u", Zmessage+m2, a+m2);
@@ -113,36 +97,29 @@ int main (int argc, char **argv) {
   numOfCypher = n2;
   printf("%d\n", Zmessage[0]);
   printf("%d\n", a[0]); 
-//  if(x==0 || AmodExp(g,x,p)!=h){
-//  printf("Finding the secret key...\n");
-//  double startTime = clock();  
-//  for(unsigned int i = 0; i<p-1;i++){
-//  if(AmodExp(g,i+1,p)==h){
-//  printf("Secret key found! x = %u \n", i+1);
-//  x=i+1;
-//  }
-//  }
-  double endTime = clock();
-  double totalTime = (endTime-startTime)/CLOCKS_PER_SEC;
-  double work =(double) p;
-  double throughput = work/totalTime;
-  printf("Searching all keys took %g seconds, throughput was %g values per second. \n", totalTime,throughput);
+//  double endTime = clock();
+//  double totalTime = (endTime-startTime)/CLOCKS_PER_SEC;
+//  double work =(double) p;
+//  double throughput = work/totalTime;
+//  printf("Searching all keys took %g seconds, throughput was %g values per second. \n", totalTime,throughput);
   }
   fclose(file1);
   fclose(file2);
   free(data1);
   //make cuda kernal
-
   //device arrays
-  int Nre = atoi(argv[1]);
-  int Nim = atoi(argv[2]);
-  int Nthreads = atoi(argv[3]);
-  dim3 B(Nthreads,Nthreads,1);
-  dim3 G((Nre+Nthreads-1)/Nthreads,(Nim+Nthreads-1)/Nthreads,1);
+//  int Nre = atoi(argv[1]);
+//  int Nim = atoi(argv[2]);
+  int Nthreads = 32;
+  dim3 B(Nthreads,1,1);
+  dim3 G(((p+Nthreads-1))/Nthreads,1,1);
   double *d_a, *h_a;
-  cudaMalloc(&d_a,N*sizeof(double));
-  h_a = (double *) malloc(N*sizeof(double));
+//  int N = 1024*1024;
+  cudaMalloc(&d_a,Nthreads*sizeof(double));
+  h_a = (double *) malloc(Nthreads*sizeof(double));
   //calculate secret key with cuda
+  double startTime = clock();
+  makeKernal<<<G,B>>>(N,a,b,c);
   findSecretKey<<<G,B>>>(n,p,g,h,x);
   cudaDeviceSynchronize();
   cudaMemcpy(h_a,d_a,Nre*Nim*sizeof(float),cudaMemcpyDeviceToHost);
@@ -150,6 +127,11 @@ int main (int argc, char **argv) {
   free(h_a);
   cudaFree(d_a);
   //done with cuda
+  double endTime = clock();
+  double totalTime = (endTIme-startTime)/CLOCKS_PER_SEC;
+  double work = (double) p;
+  double throughput = work/totalTime;
+  printf("Searching all keys took %g seconds, throughput was %g values per second. \n", totalTime, throughput);
   int bufferSize = 1024;
   unsigned char *message = (unsigned char *) malloc(bufferSize*sizeof(unsigned char));
   unsigned int charsPerInt = ((n-1)/8)*numOfCypher;
