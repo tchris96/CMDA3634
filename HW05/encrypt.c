@@ -50,7 +50,7 @@ int main (int argc, char **argv) {
 //printf("g is %d\n",g);
 //printf("h is %d\n",h);
 
-  int numOfCypher = amount;
+  //int numOfCypher = amount;
   unsigned int charsPerInt = (n-1)/8;
   unsigned int Nchars = strlen(message);
   unsigned int Nints = strlen(message)/charsPerInt;
