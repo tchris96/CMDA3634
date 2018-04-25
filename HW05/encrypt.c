@@ -35,7 +35,7 @@ int main (int argc, char **argv) {
 
   fscanf(file, "%u", &amount);
  
-  int *data = (int *) malloc(n*sizeof(int));
+  unsigned int *data = (int *) malloc(n*sizeof(unsigned int));
 
   for (int m=0;m<amount;m++)
   { 
@@ -50,7 +50,7 @@ int main (int argc, char **argv) {
 //printf("g is %d\n",g);
 //printf("h is %d\n",h);
 
-  //int numOfCypher = amount;
+  int numOfCypher = amount;
   unsigned int charsPerInt = (n-1)/8;
   unsigned int Nchars = strlen(message);
   unsigned int Nints = strlen(message)/charsPerInt;
