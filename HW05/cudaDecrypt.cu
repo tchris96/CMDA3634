@@ -32,34 +32,32 @@ __device__ int AmodExp(unsigned int a, unsigned int b, unsigned int p)
     }
   return aExpb;
   }
-__global__ void findSecretKey(unsigned int n, unsigned int p, unsigned int g, unsigned int h, unsigned int *x,unsigned int *d_a)
+__global__ void findSecretKey(unsigned int N, unsigned int p, unsigned int g, unsigned int h,unsigned int *d_a)
   {
   //__shared__ int x_A[32*32];
-//  d_a[id] = 0;
   int threadId = threadIdx.x;
   int blockId = blockIdx.x;
   int Nblock = blockDim.x;
   int id = threadId + blockId*Nblock;
-  d_a[id] = 0;
-    if(*x==0 || AmodExp(g,*x,p)!=h)
-      {
-      if(id<AmodExp(2,n,p))
+    d_a[0] = 0;
+//    if(x==0 || AmodExp(g,x,p)!=h)
+//      {
+      if(id<N)
         {
           if(AmodExp(g,id,p) ==h)
             {
-               *x = id+1;
-                d_a[id] = *x;
-               //x_A[id] = id+1;
+                *d_a = id;
             }
         }
-      }
+//      }
    }
 
 int main (int argc, char **argv) {
 
   //declare storage for an ElGamal cryptosytem
   unsigned int n, p, g, h;
-  unsigned int *x; 
+  unsigned int x;
+  //unsigned int *x; 
   //unsigned int Nints;
 
   //get the secret key from the user
@@ -71,8 +69,8 @@ int main (int argc, char **argv) {
   /* Q3 Complete this function. Read in the public key data from public_key.txt
     and the cyphertexts from messages.txt. */
 
-  FILE* file1 = fopen("public_key.txt","r");
-  FILE* file2 = fopen("message.txt", "r");
+  FILE* file1 = fopen("bonus_public_key.txt","r");
+  FILE* file2 = fopen("bonus_message.txt", "r");
   unsigned int n1;
   unsigned int n2;
   fscanf(file1, "%d", &n1);
@@ -99,9 +97,9 @@ int main (int argc, char **argv) {
   printf("n2:\n)");
   for(unsigned int m2=0; m2<n2; m2++)
   {
-    printf("m2: %u\n", m2);
+ //   printf("m2: %u\n", m2);
     fscanf(file2, "%u  %u", Zmessage+m2, a+m2);
-    printf("zmessage is: %u\n", *(Zmessage+m2));
+  //  printf("zmessage is: %u\n", *(Zmessage+m2));
   
   }
   int numOfCypher = 0;
@@ -120,33 +118,31 @@ int main (int argc, char **argv) {
   //make cuda kernal
   //device arrays
   int Nthreads = 32;
-  dim3 B(Nthreads,1,1);
-  dim3 G(((p+Nthreads-1))/Nthreads,1,1);
+  //dim3 B(Nthreads,1,1);
+  //dim3 G(((p+Nthreads-1))/Nthreads,1,1);
+  int B = 32;
+  int G = ((int)(p-1) + B - 1)/B;
   printf("testing here 3\n");
   unsigned int *d_a, *h_a;
 //  int N = 1024*1024;
-  cudaMalloc(&d_a,Nthreads*sizeof(unsigned int));
-  h_a = (unsigned int *) malloc(Nthreads*sizeof(unsigned int));
+  cudaMalloc(&d_a,sizeof(unsigned int));
+  //cudaMalloc(&d_a,Nthreads*sizeof(unsigned int));
+  h_a = (unsigned int *) malloc(sizeof(unsigned int));
   //calculate secret key with cuda
   double startTime = clock();
   printf("testing here 4\n");
-  findSecretKey<<<G,B>>>(n,p,g,h,x,d_a);
+ //nblocks n threads
+  findSecretKey<<<G,B>>>(p-1,p,g,h,d_a);
 //  printf("x is: %d\n", x);
   cudaDeviceSynchronize();
   printf("extra testing 100\n");
-  cudaMemcpy(h_a,d_a,Nthreads*sizeof(float),cudaMemcpyDeviceToHost);
+  //cudaMemcpy(d_a,h_a,Nthreads*sizeof(float),cudaMemcpyDeviceToHost);
+  cudaMemcpy(h_a,d_a,sizeof(unsigned int),cudaMemcpyDeviceToHost);
   printf("extra test 150\n");
-  for(int i = 0; i < Nthreads;i++)
-  {
-    if(*x < h_a[i])
-    {
-    *x = h_a[i];
-    }
-  }
-
+  x=*h_a;
   printf("x is: %d\n", x);
   printf("extra testing 200\n");
-  ElGamalDecrypt(Zmessage,a,numOfCypher,p,*x);
+  ElGamalDecrypt(Zmessage,a,numOfCypher,p,x);
   printf("extra testing 300\n");
   free(h_a);
   cudaFree(d_a);
