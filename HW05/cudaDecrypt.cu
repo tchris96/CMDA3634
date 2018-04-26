@@ -91,34 +91,34 @@ int main (int argc, char **argv) {
   }
   int numOfCypher = 0;
   numOfCypher = n2;
-  printf("testing here 1\n");
+ // printf("testing here 1\n");
   fclose(file2);
   free(data1);
-  printf("testing here 2\n");
+ // printf("testing here 2\n");
   //make cuda kernal
   //device arrays
   int Nthreads = 32;
   dim3 B(Nthreads,1,1);
   dim3 G(((p+Nthreads-1))/Nthreads,1,1);
-  printf("testing here 3\n");
+ // printf("testing here 3\n");
   unsigned int *d_a, *h_a;
   cudaMalloc(&d_a,sizeof(unsigned int));
   h_a = (unsigned int *) malloc(sizeof(unsigned int));
   double startTime = clock();
-  printf("testing here 4\n");
+ // printf("testing here 4\n");
   findSecretKey<<<G,B>>>(p-1,p,g,h,d_a);
   cudaDeviceSynchronize();
-  printf("extra testing 100\n");
+ // printf("extra testing 100\n");
   cudaMemcpy(h_a,d_a,sizeof(unsigned int),cudaMemcpyDeviceToHost);
-  printf("extra test 150\n");
+ // printf("extra test 150\n");
   x=*h_a;
   printf("x is: %d\n", x);
-  printf("extra testing 200\n");
+ // printf("extra testing 200\n");
   ElGamalDecrypt(Zmessage,a,numOfCypher,p,x);
-  printf("extra testing 300\n");
+ // printf("extra testing 300\n");
   free(h_a);
   cudaFree(d_a);
-  printf("testing here 5\n");
+  //printf("testing here 5\n");
   //done with cuda
   double endTime = clock();
   double totalTime = (endTime-startTime)/CLOCKS_PER_SEC;
@@ -129,7 +129,7 @@ int main (int argc, char **argv) {
   unsigned char *message = (unsigned char *) malloc(bufferSize*sizeof(unsigned char));
   unsigned int charsPerInt = ((n-1)/8)*numOfCypher;
   convertZToString(Zmessage, numOfCypher, message, charsPerInt);
-  printf("testing here 6\n");
+ // printf("testing here 6\n");
   printf("Decrypted message = \"%s\"\n", message);
   printf("\n");
   /* Part 2. Start this program by first copying the contents of the main function from 

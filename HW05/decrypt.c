@@ -29,9 +29,9 @@ int main (int argc, char **argv) {
 //  unsigned int n3;
   fscanf(file1, "%d", &n1);
   fscanf(file2, "%d", &n2);
-  unsigned int *data1 = (unsigned int *) malloc(n1*sizeof(int));
-  unsigned int *Zmessage = (unsigned int *) malloc(n2*sizeof(int));
-  unsigned int *a = (unsigned int *) malloc(n2*sizeof(int));
+  unsigned int *data1 = (unsigned int *) malloc(n1*sizeof(unsigned int));
+  unsigned int *Zmessage = (unsigned int *) malloc(n2*sizeof(unsigned int));
+  unsigned int *a = (unsigned int *) malloc(n2*sizeof(unsigned int));
 
   for(unsigned int m1=0; m1<n1; m1++)
   {

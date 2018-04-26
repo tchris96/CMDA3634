@@ -52,6 +52,7 @@ int main (int argc, char **argv) {
 
   int numOfCypher = amount;
   unsigned int charsPerInt = (n-1)/8;
+  padString(message, charsPerInt);
   unsigned int Nchars = strlen(message);
   unsigned int Nints = strlen(message)/charsPerInt;
   unsigned int *Zmessage = (unsigned int *) malloc(Nints*sizeof(unsigned int));
