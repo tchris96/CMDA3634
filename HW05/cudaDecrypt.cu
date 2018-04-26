@@ -60,8 +60,8 @@ int main (int argc, char **argv) {
   /* Q3 Complete this function. Read in the public key data from public_key.txt
     and the cyphertexts from messages.txt. */
 
-  FILE* file1 = fopen("bonus_public_key.txt","r");
-  FILE* file2 = fopen("bonus_message.txt", "r");
+  FILE* file1 = fopen("public_key.txt","r");
+  FILE* file2 = fopen("message.txt", "r");
   unsigned int n1;
   unsigned int n2;
   fscanf(file1, "%d", &n1);
