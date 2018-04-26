@@ -83,7 +83,7 @@ int main (int argc, char **argv) {
   printf("p is %d\n", p);
   printf("g is %d\n", g);
   printf("h is %d\n", h);
-  printf("x is %d\n", x);
+  //printf("x is %d\n", x);
   //read in second file
   for(unsigned int m2=0; m2<n2; m2++)
   {
